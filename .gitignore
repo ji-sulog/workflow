@@ -1,0 +1,38 @@
+# 민감 설정 파일
+application.properties
+application.yml
+.env
+
+# 로그 파일
+*.log
+
+# 빌드 결과물
+target/
+
+# Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
