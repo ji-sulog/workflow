@@ -37,7 +37,7 @@ public class ApprovalFormService {
             throw new RuntimeException("이미 다른 사용자가 처리 중입니다");
         }
         
-        if(form.getApproverId().equals(userId)) {
+        if(form.getApproverId().equals(userId) && !form.getStatus().equals(ApprovalStatus.DRAFT)) {
             // 승인자일 경우 잠금 처리
             form.setLocked(true);
             form.setLockedBy(userId);
@@ -52,7 +52,7 @@ public class ApprovalFormService {
         ApprovalForm form = formRepository.findById(formId)
                 .orElseThrow(() -> new RuntimeException("신청서가 존재하지 않습니다"));
         
-        if (!form.isLocked()) {
+        if (form.isLocked()) {
             form.setLocked(false);
             form.setLockedBy(null);
             form.setLockedAt(null);
