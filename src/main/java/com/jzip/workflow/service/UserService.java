@@ -1,12 +1,15 @@
 package com.jzip.workflow.service;
 
-import com.jzip.workflow.dto.LoginRequestDto;
-import com.jzip.workflow.dto.UserSignupRequestDto;
+import com.jzip.workflow.domain.user.User;
+import com.jzip.workflow.dto.user.LoginRequestDto;
+import com.jzip.workflow.dto.user.UserSignupRequestDto;
 import com.jzip.workflow.repository.UserRepository;
-import com.jzip.workflow.entity.User;
 import com.jzip.workflow.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +47,9 @@ public class UserService {
 
         // JWT 생성
         return jwtTokenProvider.createToken(user.getUsername(), user.getRole());
+    }
+
+    public List<User> getUserList() {
+        return userRepository.findAll();
     }
 }

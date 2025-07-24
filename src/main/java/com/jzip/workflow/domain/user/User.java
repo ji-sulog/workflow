@@ -1,4 +1,4 @@
-package com.jzip.workflow.entity;
+package com.jzip.workflow.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;

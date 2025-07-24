@@ -1,4 +1,4 @@
-package com.jzip.workflow.domain;
+package com.jzip.workflow.domain.form;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,19 +18,19 @@ public class ApprovalForm {
 
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String content;
 
     @Enumerated(EnumType.STRING)
     private ApprovalStatus status;
 
-    private Long writerId;     // 임시 사용자 ID
-    private Long approverId;   // 임시 승인자 ID
+    private Long writerId;     // 사용자 ID
+    private Long approverId;   // 승인자 ID
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String memo;       // 승인/반려 의견
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String rmk;        // 비고 (remark)
 
     private boolean isLocked;       // 조회 중 여부

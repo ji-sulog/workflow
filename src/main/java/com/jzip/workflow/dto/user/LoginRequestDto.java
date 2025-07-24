@@ -1,4 +1,4 @@
-package com.jzip.workflow.dto;
+package com.jzip.workflow.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;

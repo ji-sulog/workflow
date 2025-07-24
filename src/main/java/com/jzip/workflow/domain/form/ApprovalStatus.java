@@ -1,4 +1,4 @@
-package com.jzip.workflow.domain;
+package com.jzip.workflow.domain.form;
 
 public enum ApprovalStatus { 
     DRAFT,       // 작성 중
