@@ -36,27 +36,14 @@ public class ApprovalFormService {
         if (form.isLocked()) {
             throw new RuntimeException("이미 다른 사용자가 처리 중입니다");
         }
-        
+        // 승인자가 접근 시 DRAFT 상태가 아닐 때 잠금처리
         if(form.getApproverId().equals(userId) && !form.getStatus().equals(ApprovalStatus.DRAFT)) {
-            // 승인자일 경우 잠금 처리
             form.setLocked(true);
             form.setLockedBy(userId);
             form.setLockedAt(LocalDateTime.now());
         }
 
         return form;
-    }
-    // 신청서 잠금 해제
-    @Transactional
-    public void unlockForm(Long formId) {
-        ApprovalForm form = formRepository.findById(formId)
-                .orElseThrow(() -> new RuntimeException("신청서가 존재하지 않습니다"));
-        
-        if (form.isLocked()) {
-            form.setLocked(false);
-            form.setLockedBy(null);
-            form.setLockedAt(null);
-        }
     }
 
     // 신청서 제출
@@ -76,8 +63,19 @@ public class ApprovalFormService {
         return form;
     }
 
-    // 신청서 승인/반려 :승인자만 가능
+    // 신청서 잠금 해제
+    @Transactional
+    public void unlockForm(Long formId, Long userId) {
+        ApprovalForm form = formRepository.findById(formId)
+                .orElseThrow(() -> new RuntimeException("신청서가 존재하지 않습니다"));
+        if (form.getApproverId().equals(userId) && form.isLocked()) {
+            form.setLocked(false);
+            form.setLockedBy(null);
+            form.setLockedAt(null);
+        }
+    }
 
+    // 신청서 승인/반려 :승인자만 가능
     @Transactional
     public ApprovalForm approveForm(Long formId, String memo, Long userId) {
         ApprovalForm form = formRepository.findById(formId)
@@ -91,9 +89,12 @@ public class ApprovalFormService {
         }
         form.setStatus(ApprovalStatus.APPROVED);
         form.setMemo(memo);
+        System.err.println("::::::::::::::::::::::::::::::::::\nform.getApproverId() :" 
+                    + form.getApproverId()
+                    + "\nform.isLocked(): " + form.isLocked());
 
-        // 잠금 해제 조건: 잠금 상태이거나, 승인자 본인이면 해제
-        if (form.isLocked() || form.getApproverId().equals(userId)){
+
+        if (form.getApproverId().equals(userId) && form.isLocked()){
             form.setLocked(false);
             form.setLockedBy(null);
             form.setLockedAt(null);

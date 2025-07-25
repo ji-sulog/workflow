@@ -48,7 +48,7 @@ public class ApprovalFormController {
     }
     // +잠금
     @GetMapping("/{id}/locked")
-    @Operation(summary = "신청서 조회 + 잠금", description = "신청서를 조회하면서 동시에 잠금 처리합니다.")
+    @Operation(summary = "신청서 조회 + 승인자 조회 시 잠금", description = "신청서를 조회하면서 동시에 잠금 처리합니다.")
     public ApprovalForm lockAndGetForm(
             @PathVariable Long id,
             @RequestParam Long userId
@@ -60,7 +60,7 @@ public class ApprovalFormController {
     @PostMapping("/{id}/unlock")
     @Operation(summary = "신청서 잠금 해제", description = "사용자가 처리 중인 신청서의 잠금을 해제합니다.")
     public void unlockForm(@PathVariable Long id, @RequestParam Long userId) {
-        formService.unlockForm(id);
+        formService.unlockForm(id, userId);
     }
 
     // 제출
